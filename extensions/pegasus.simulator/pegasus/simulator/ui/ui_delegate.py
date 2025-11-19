@@ -6,16 +6,19 @@
 """
 
 # External packages
+import json
 import os
 import asyncio
+from pathlib import Path
 from scipy.spatial.transform import Rotation
 
 # Omniverse extensions
 import carb
 import omni.ui as ui
+import yaml
 
 # Extension Configurations
-from pegasus.simulator.params import ROBOTS, SIMULATION_ENVIRONMENTS, BACKENDS, WORLD_SETTINGS
+from pegasus.simulator.params import ROBOTS, ROBOTS_ROOT, SIMULATION_ENVIRONMENTS, BACKENDS, WORLD_SETTINGS
 from pegasus.simulator.logic.interface.pegasus_interface import PegasusInterface
 
 # Vehicle Manager to spawn Vehicles
@@ -283,9 +286,18 @@ class UIDelegate:
                 else:
                     carb.log_warn("Invalid backend selected. Not spawning the vehicle.")
                     return
-                   
+                
+                quadratic_thrust_curve_config_file = Path(ROBOTS_ROOT[selected_robot] + "/quadratic_thrust_curve_config.yaml")
+                if quadratic_thrust_curve_config_file.is_file():
+                    with quadratic_thrust_curve_config_file.open('r', encoding='utf-8') as f:
+                        quadratic_thrust_curve_config = yaml.safe_load(f) or {}
+                        carb.log_info(f"Got custom quadratic config: {json.dumps(quadratic_thrust_curve_config, ensure_ascii=False)}")
+                else:
+                    quadratic_thrust_curve_config = {}
+                    carb.log_info("No custom quadratic config provided, using default settings.")
+                
                 # Create the multirotor configuration
-                config_multirotor = MultirotorConfig()
+                config_multirotor = MultirotorConfig(quadratic_thrust_curve_config)
                 config_multirotor.backends = [backend]
                 config_multirotor.graphical_sensors = [MonocularCamera("camera", config={"update_rate": 60.0})]
                 

@@ -289,13 +289,15 @@ class Vehicle(Robot):
         """
 
         # Get the body frame interface of the vehicle (this will be the frame used to get the position, orientation, etc.)
-        body = self.get_dc_interface().get_rigid_body(self._stage_prefix + "/body")
+        body = self.get_dc_interface().get_rigid_body(self._stage_prefix + self._thrusters._body_name)
+        # FIXME: _thrusters shouldn't be used here
 
         # Get the current position and orientation in the inertial frame
         pose = self.get_dc_interface().get_rigid_body_pose(body)
 
         # Get the attitude according to the convention [w, x, y, z]
-        prim = self._world.stage.GetPrimAtPath(self._stage_prefix + "/body")
+        prim = self._world.stage.GetPrimAtPath(self._stage_prefix + self._thrusters._body_name)
+        # FIXME: _thrusters shouldn't be used here
         rotation_quat = get_world_transform_xform(prim).GetQuaternion()
         rotation_quat_real = rotation_quat.GetReal()
         rotation_quat_img = rotation_quat.GetImaginary()

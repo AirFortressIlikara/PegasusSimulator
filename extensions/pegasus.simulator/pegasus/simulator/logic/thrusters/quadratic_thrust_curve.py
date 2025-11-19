@@ -21,6 +21,9 @@ class QuadraticThrustCurve(ThrustCurve):
             The dictionary default parameters are
 
             >>> {"num_rotors": 4,
+            >>>  "rotor_name_format": "/rotor{}",
+            >>>  "rotor_joint_name_format": "joint{}",
+            >>>  "body_name": "/body",
             >>>  "rotor_constant": [5.84e-6, 5.84e-6, 5.84e-6, 5.84e-6],
             >>>  "rolling_moment_coefficient": [1e-6, 1e-6, 1e-6, 1e-6],
             >>>  "rot_dir": [-1, -1, 1, 1],
@@ -31,6 +34,12 @@ class QuadraticThrustCurve(ThrustCurve):
 
         # Get the total number of rotors to simulate
         self._num_rotors = config.get("num_rotors", 4)
+
+        self._rotor_name_format = config.get("rotor_name_format", "/rotor{}")
+
+        self._rotor_joint_name_format = config.get("rotor_joint_name_format", "joint{}")
+
+        self._body_name = config.get("body_name", "/body")
 
         # The rotor constant used for computing the total thrust produced by the rotor: T = rotor_constant * omega^2
         self._rotor_constant = config.get("rotor_constant", [8.54858e-6, 8.54858e-6, 8.54858e-6, 8.54858e-6])
