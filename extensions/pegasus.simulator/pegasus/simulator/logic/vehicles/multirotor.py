@@ -119,7 +119,7 @@ class Multirotor(Vehicle):
         """
 
         # Get the articulation root of the vehicle
-        articulation = self.get_dc_interface().get_articulation(self._stage_prefix)
+        articulation = self.get_dc_interface().get_articulation(self._stage_prefix + self._thrusters._articulation_root_suffix)
 
         # Get the desired angular velocities for each rotor from the first backend (can be mavlink or other) expressed in rad/s
         if len(self._backends) != 0:
@@ -143,10 +143,7 @@ class Multirotor(Vehicle):
             )
 
             # Generate the rotating propeller visual effect
-            # self.handle_propeller_visual(i, forces_z[i], articulation)
-            # FIXME: with the following error
-            # 2025-11-19 06:34:33 [13,541,186ms] [Error] [omni.isaac.dynamic_control.plugin] DcFindArticulationDof: Invalid or expired articulation handle
-            # 2025-11-19 06:34:33 [13,541,186ms] [Error] [omni.isaac.dynamic_control.plugin] DcSetDofVelocity: Invalid or expired dof handle
+            self.handle_propeller_visual(i, forces_z[i], articulation)
 
         # Apply the torque to the body frame of the vehicle that corresponds to the rolling moment
         self.apply_torque([0.0, 0.0, rolling_moment], self._thrusters._body_name)

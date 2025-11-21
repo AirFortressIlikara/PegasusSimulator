@@ -2,3 +2,4 @@ num_rotors: 4
 rotor_name_format: "/rotor_link{}"
 rotor_joint_name_format: "rotorJoint{}"
 body_name: "/base_link"
+articulation_root_suffix: "/base_link"

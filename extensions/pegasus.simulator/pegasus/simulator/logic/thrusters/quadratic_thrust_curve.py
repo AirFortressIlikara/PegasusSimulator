@@ -23,6 +23,7 @@ class QuadraticThrustCurve(ThrustCurve):
             >>> {"num_rotors": 4,
             >>>  "rotor_name_format": "/rotor{}",
             >>>  "rotor_joint_name_format": "joint{}",
+            >>>  "articulation_root_suffix": "",
             >>>  "body_name": "/body",
             >>>  "rotor_constant": [5.84e-6, 5.84e-6, 5.84e-6, 5.84e-6],
             >>>  "rolling_moment_coefficient": [1e-6, 1e-6, 1e-6, 1e-6],
@@ -38,6 +39,8 @@ class QuadraticThrustCurve(ThrustCurve):
         self._rotor_name_format = config.get("rotor_name_format", "/rotor{}")
 
         self._rotor_joint_name_format = config.get("rotor_joint_name_format", "joint{}")
+
+        self._articulation_root_suffix = config.get("articulation_root_suffix", "")
 
         self._body_name = config.get("body_name", "/body")
 

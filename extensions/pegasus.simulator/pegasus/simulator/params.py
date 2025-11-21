@@ -37,7 +37,7 @@ ROBOTS_ROOT = {
 ROBOTS = {
     "Iris": ROBOTS_ROOT["Iris"] + "/iris.usd",
     "Flying Cube": ROBOTS_ROOT["Flying Cube"] + "/cube.usda",
-    "Vector Quad": ROBOTS_ROOT["Vector Quad"] + "/my_quad/my_quad.usd",
+    "Vector Quad": ROBOTS_ROOT["Vector Quad"] + "/qwq.usd",
 }
 
 # Setup the default simulation environments path
